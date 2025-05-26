@@ -95,7 +95,7 @@ def youtube(request):
     if request.method == "POST":
         form = DashboardForm(request.POST)
         text = request.POST['text']
-        video = VideosSearch(text, limit=100)
+        video = Videos(text, limit=100)
         result_list = []
         for i in async.post.result()['result']:
             result_dict = {
