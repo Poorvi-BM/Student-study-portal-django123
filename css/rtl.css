@@ -269,6 +269,7 @@ form .form-row p.datetime {
     text-align: right
 }
 
+<<<<<<< HEAD
 .inline-related h3 span.delete {
     padding-right: 20px;
     padding-left: inherit;
@@ -276,6 +277,9 @@ form .form-row p.datetime {
     right: inherit;
     float:left;
 }
+=======
+
+>>>>>>> origin/Poorvi
 
 .inline-related h3 span.delete label {
     margin-left: inherit;
@@ -289,3 +293,14 @@ form .form-row p.datetime {
 .selector .selector-chooser {
     margin: 0;
 }
+<<<<<<< HEAD
+=======
+
+.inline-related h3 span.delete {
+    padding-right: 20px;
+    padding-left: inherit;
+    left: 10px;
+    right: inherit;
+    float:left;
+}
+>>>>>>> origin/Poorvi

@@ -107,6 +107,12 @@ In VS Code: go to cd env/Scripts and press enter your terminal and after that wr
   If you have anyquery, You can easily reach out to me:
   Email: innovatexsolutionsbd@gmail.com
 
+<<<<<<< HEAD
+=======
+##author
+Poorvi
+
+>>>>>>> origin/Poorvi
 
 
 

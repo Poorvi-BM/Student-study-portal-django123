@@ -97,7 +97,11 @@ def youtube(request):
         text = request.POST['text']
         video = VideosSearch(text, limit=100)
         result_list = []
+<<<<<<< HEAD
         for i in video.result()['result']:
+=======
+        for i in video.asyncpostresult()['result']:
+>>>>>>> origin/Poorvi
             result_dict = {
                 'input':text,
                 'title': i['title'],
@@ -219,11 +223,17 @@ def books(request):
     return render(request, 'dashboard/books.html', context)
 
 
+<<<<<<< HEAD
+=======
+from django.core.cache import cache
+import requests
+>>>>>>> origin/Poorvi
 
 def dictionary(request):
     if request.method == "POST":
         form = DashboardForm(request.POST)
         text = request.POST['text']
+<<<<<<< HEAD
         url = "https://api.dictionaryapi.dev/api/v2/entries/en_US/"+text
         r = requests.get(url)
         answer = r.json()
@@ -234,11 +244,48 @@ def dictionary(request):
             definition = answer[0]['meanings'][0]['definitions'][0]['definition']
             example = answer[0]['meanings'][0]['definitions'][0]['example']
             synonyms = answer[0]['meanings'][0]['definitions'][0]['synonyms']
+=======
+        
+        # Check if the result is already cached
+        cached_result = cache.get(text)
+        if cached_result:
+            return render(request, 'dashboard/dictionary.html', cached_result)
+        
+        url = f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{text}"
+        r = requests.get(url)
+        
+        if r.status_code == 429:  # HTTP 429 Too Many Requests
+            context = {
+                'form': form,
+                'input': text,
+                'error': "API rate limit exceeded. Please try again later."
+            }
+            return render(request, 'dashboard/dictionary.html', context)
+        
+        if r.status_code != 200:  # Handle other HTTP errors
+            context = {
+                'form': form,
+                'input': text,
+                'error': f"Error fetching data from the API. Status code: {r.status_code}"
+            }
+            return render(request, 'dashboard/dictionary.html', context)
+        
+        try:
+            answer = r.json()
+            # Safely extract data with default values
+            phonetics = answer[0].get('phonetics', [{}])[0].get('text', 'No phonetics available')
+            audio = answer[0].get('phonetics', [{}])[0].get('audio', '')
+            definition = answer[0].get('meanings', [{}])[0].get('definitions', [{}])[0].get('definition', 'No definition available')
+            example = answer[0].get('meanings', [{}])[0].get('definitions', [{}])[0].get('example', 'No example available')
+            synonyms = answer[0].get('meanings', [{}])[0].get('definitions', [{}])[0].get('synonyms', [])
+            
+>>>>>>> origin/Poorvi
             context = {
                 'form': form,
                 'input': text,
                 'phonetics': phonetics,
                 'audio': audio,
+<<<<<<< HEAD
                 'definition':definition,
                 'example': example,
                 'synonyms': synonyms
@@ -247,14 +294,33 @@ def dictionary(request):
             context = {
                 'form': form,
                 'input': '',
+=======
+                'definition': definition,
+                'example': example,
+                'synonyms': synonyms
+            }
+            # Cache the result for 1 hour (3600 seconds)
+            cache.set(text, context, timeout=3600)
+        except (KeyError, IndexError, TypeError) as e:
+            context = {
+                'form': form,
+                'input': text,
+                'error': f"Could not fetch data for the given word. Error: {str(e)}"
+>>>>>>> origin/Poorvi
             }
         return render(request, 'dashboard/dictionary.html', context)
     else:
         form = DashboardForm()
         context = {
+<<<<<<< HEAD
         'form':form
         }
     return render(request, 'dashboard/dictionary.html',context)
+=======
+            'form': form
+        }
+    return render(request, 'dashboard/dictionary.html', context)
+>>>>>>> origin/Poorvi
 
 def wiki(request):
     if request.method == "POST":
