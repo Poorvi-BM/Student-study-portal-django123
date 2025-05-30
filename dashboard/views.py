@@ -90,15 +90,20 @@ def update_homework(request, pk=None):
 def delete_homework(request, pk=None):
     Homework.objects.get(id=pk).delete()
     return redirect('homework')
+
+# views.py
+from django.shortcuts import render
+from .forms import DashboardForm
+from youtubesearchpython import VideosSearch
     
 def youtube(request):
     if request.method == "POST":
         form = DashboardForm(request.POST)
-        text = request.POST['text']
-        video = VideosSearch(text, limit=100)
-        result_list = []
-        for i in video.asyncpostresult()['result']:
-            result_dict = {
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            videoSearch = VideosSearch(text, limit=100)
+           for result in videosSearch.result()["result"]:
+            result.append = {
                 'input':text,
                 'title': i['title'],
                 'duration': i['duration'],
