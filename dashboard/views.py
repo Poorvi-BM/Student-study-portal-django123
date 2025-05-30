@@ -97,7 +97,7 @@ def youtube(request):
         text = request.POST['text']
         video = VideosSearch(text, limit=100)
         result_list = []
-        for i in video.result()['result']:
+        for i in video.asyncpostresult()['result']:
             result_dict = {
                 'input':text,
                 'title': i['title'],
