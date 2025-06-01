@@ -9,30 +9,26 @@
         localStorage.setItem("theme", mode);
     }
 
-    function cycleTheme() {
-        const currentTheme = localStorage.getItem("theme") || "auto";
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+function cycleTheme() {
+  const currentTheme = localStorage.getItem("theme") || "auto";
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-        if (prefersDark) {
-            // Auto (dark) -> Light -> Dark
-            if (currentTheme === "auto") {
-                setTheme("light");
-            } else if (currentTheme === "light") {
-                setTheme("dark");
-            } else {
-                setTheme("auto");
-            }
-        } else {
-            // Auto (light) -> Dark -> Light
-            if (currentTheme === "auto") {
-                setTheme("dark");
-            } else if (currentTheme === "dark") {
-                setTheme("light");
-            } else {
-                setTheme("auto");
-            }
-        }
-    }
+  let nextTheme;
+
+  if (prefersDark) {
+    // Auto (dark) -> Light -> Dark
+    nextTheme = currentTheme === "auto" ? "light"
+              : currentTheme === "light" ? "dark"
+              : "auto";
+  } else {
+    // Auto (light) -> Dark -> Light
+    nextTheme = currentTheme === "auto" ? "dark"
+              : currentTheme === "dark" ? "light"
+              : "auto";
+  }
+
+  setTheme(nextTheme);
+}
 
     function initTheme() {
         // set theme defined in localStorage if there is one, or fallback to auto mode
