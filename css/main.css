@@ -207,3 +207,25 @@ footer .column a+a {
 .account-heading {
     font-size: 2.5rem;
 }
+
+.test-style {
+    color : pink;
+}
+.test-style:hover {
+    color: red;
+}
+.test-style:active {
+    color: blue;
+}
+.test-style:visited {
+    color: green;
+}
+.test-style:focus {
+    color: orange;
+}
+.test-style:link {
+    color: purple;
+}
+.test-style:target {
+    color: yellow;
+}
